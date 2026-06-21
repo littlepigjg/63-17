@@ -63,3 +63,45 @@ export interface PullResponse {
 }
 
 export type LogType = LogEntry['type'];
+
+export type EventSeverity = 'info' | 'warning' | 'error' | 'critical';
+
+export type SSEEventType =
+  | 'connected'
+  | 'config_changed'
+  | 'refresh'
+  | 'log_created'
+  | 'client_online'
+  | 'client_offline'
+  | 'error'
+  | 'system';
+
+export interface SSESubscriptionRule {
+  id: string;
+  name: string;
+  enabled: boolean;
+  eventTypes?: SSEEventType[];
+  projects?: string[];
+  environments?: string[];
+  severity?: EventSeverity[];
+  clientIds?: string[];
+  keywords?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SSEEventMessage {
+  type: SSEEventType;
+  project?: string;
+  environment?: string;
+  changedKeys?: string[];
+  targetClient?: string;
+  severity?: EventSeverity;
+  clientId?: string;
+  clientName?: string;
+  logId?: string;
+  logType?: LogType;
+  detail?: string;
+  timestamp: string;
+  [key: string]: unknown;
+}
